@@ -1,21 +1,26 @@
 import * as React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import useMovies from './hooks/useMovies';
+import Movie from './Movie';
 
 export default function HomeScreen() {
+  const { movies } = useMovies();
+
   return (
-    <View>
-      <Text>HomeScreen</Text>
-      <Text>HomeScreen</Text>
-      <Text>HomeScreen</Text>
-      <Text>HomeScreen</Text>
-      <Text>HomeScreen</Text>
-      <Text>HomeScreen</Text>
-      <Text>HomeScreen</Text>
-      <Text>HomeScreen</Text>
-      <Text>HomeScreen</Text>
-      <Text>HomeScreen</Text>
-    </View>
+    <SafeAreaView>
+      <FlatList
+        style={styles.movieList}
+        data={movies}
+        renderItem={({ item: movie }) => {
+          const { title, originalTitle, releaseDate, overview, posterUrl } =
+            movie;
+          return <Movie {...movie} />;
+        }}
+      />
+    </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  movieList: {},
+});
