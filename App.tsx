@@ -1,16 +1,18 @@
 import * as React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import HomeScreen from './src/screens/HomeScreen';
+import { StyleSheet } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-const Stack = createNativeStackNavigator();
+import { RootStackParamList } from './src/@types';
+import MoviesScreen from './src/screens/MoviesScreen/MoviesScreen';
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Movies" component={MoviesScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
