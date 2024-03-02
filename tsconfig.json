@@ -1,3 +1,9 @@
 {
-  "extends": "@react-native/typescript-config/tsconfig.json"
+  "extends": "@react-native/typescript-config/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@env": ["./src/@types/.env.d.ts"] // this mapping is relative to "baseUrl"
+    }
+  }
 }
