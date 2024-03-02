@@ -3,6 +3,7 @@ import {
   ActivityIndicator,
   FlatList,
   Platform,
+  RefreshControl,
   SafeAreaView,
   StatusBar,
   StyleSheet,
@@ -15,7 +16,7 @@ import Colors from 'open-color';
 const Separator = () => <View style={styles.separator} />;
 
 export default function HomeScreen() {
-  const { movies, isPending, loadMore, hasNextPage } = useMovies();
+  const { movies, isPending, loadMore, hasNextPage, refresh } = useMovies();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -37,6 +38,13 @@ export default function HomeScreen() {
               loadMore();
             }
           }}
+          refreshControl={
+            <RefreshControl
+              tintColor={Colors.white}
+              refreshing={isPending}
+              onRefresh={refresh}
+            />
+          }
         />
       )}
     </SafeAreaView>

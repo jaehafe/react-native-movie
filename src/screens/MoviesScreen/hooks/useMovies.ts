@@ -17,7 +17,7 @@ export default function useMovies() {
     [],
   );
 
-  const { data, isPending, error, fetchNextPage, hasNextPage } =
+  const { data, isPending, error, fetchNextPage, hasNextPage, refetch } =
     useInfiniteQuery({
       queryKey: ['upcoming-movies'],
       queryFn: getUpcomingMovies,
@@ -35,11 +35,15 @@ export default function useMovies() {
     fetchNextPage();
   }, [fetchNextPage]);
 
+  const refresh = React.useCallback(() => {
+    refetch();
+  }, [refetch]);
+
   const movies = React.useMemo(() => {
     return data?.pages.reduce<Movie[]>((allMovies, page) => {
       return allMovies.concat(page.results);
     }, []);
   }, [data]);
 
-  return { movies, isPending, error, loadMore, hasNextPage };
+  return { movies, isPending, error, loadMore, hasNextPage, refresh };
 }
