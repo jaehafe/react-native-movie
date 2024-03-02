@@ -15,7 +15,7 @@ import Colors from 'open-color';
 const Separator = () => <View style={styles.separator} />;
 
 export default function HomeScreen() {
-  const { movies, isPending } = useMovies();
+  const { movies, isPending, loadMore, hasNextPage } = useMovies();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -32,6 +32,11 @@ export default function HomeScreen() {
           data={movies}
           renderItem={({ item: movie }) => <Movie {...movie} />}
           ItemSeparatorComponent={Separator}
+          onEndReached={() => {
+            if (hasNextPage) {
+              loadMore();
+            }
+          }}
         />
       )}
     </SafeAreaView>

@@ -1,26 +1,45 @@
 import * as React from 'react';
 
 import { getDiscoverMovies } from '../../../modules/ApiRequest';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 import dayjs from 'dayjs';
+import { Movie } from '@/@types';
 
 export default function useMovies() {
   const getUpcomingMovies = React.useCallback(
-    async () =>
+    async ({ pageParam = 1 }) =>
       await getDiscoverMovies({
         releaseDateGte: dayjs().format('YYYY-MM-DD'),
         releaseDateLte: dayjs().add(1, 'year').format('YYYY-MM-DD'),
+        page: pageParam,
       }),
     [],
   );
 
-  const { data, isPending, error } = useQuery({
-    queryKey: ['upcoming-movies'],
-    queryFn: getUpcomingMovies,
-  });
+  const { data, isPending, error, fetchNextPage, hasNextPage } =
+    useInfiniteQuery({
+      queryKey: ['upcoming-movies'],
+      queryFn: getUpcomingMovies,
+      initialPageParam: 1,
+      getNextPageParam: lastPage => {
+        if (lastPage.page < lastPage.totalPages) {
+          return lastPage.page + 1;
+        }
+        return undefined;
+      },
+      // select: data => data.pages.flatMap(page => page.results),
+    });
 
-  const movies = data?.results ?? [];
+  const loadMore = React.useCallback(() => {
+    fetchNextPage();
+  }, [fetchNextPage]);
 
-  return { movies, isPending, error };
+  const movies = React.useMemo(() => {
+    return data?.pages.reduce<Movie[]>((allMovies, page) => {
+      return allMovies.concat(page.results);
+    }, []);
+  }, [data]);
+
+  return { movies, isPending, error, loadMore, hasNextPage };
 }

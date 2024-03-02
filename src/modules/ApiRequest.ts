@@ -31,12 +31,13 @@ interface GetDiscoverMovieResponse {
 interface GetDiscoverMoviesParams {
   releaseDateGte?: string;
   releaseDateLte?: string;
-  region?: 'KR';
+  page?: number;
 }
 
 export const getDiscoverMovies = async ({
   releaseDateGte,
   releaseDateLte,
+  page,
 }: GetDiscoverMoviesParams) => {
   const response = await instance.get<GetDiscoverMovieResponse>(
     'discover/movie',
@@ -45,6 +46,7 @@ export const getDiscoverMovies = async ({
         ['release_date.gte']: releaseDateGte,
         ['release_date.lte']: releaseDateLte,
         region: 'KR',
+        page,
       },
     },
   );
