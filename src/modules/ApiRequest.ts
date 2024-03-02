@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { API_KEY } from '@env';
 import { Movie } from 'src/@types';
+import { API_KEY } from '@env';
 
 const IMG_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 

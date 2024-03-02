@@ -3,7 +3,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@env": ["./src/@types/.env.d.ts"] // this mapping is relative to "baseUrl"
+      "@env": ["./src/@types/.env.d.ts"],
+      "@/*": ["./src/*"]
     }
-  }
+  },
+  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]
 }
