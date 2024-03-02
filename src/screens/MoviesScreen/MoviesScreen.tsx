@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {
+  ActivityIndicator,
   FlatList,
   Platform,
   SafeAreaView,
@@ -11,24 +12,28 @@ import useMovies from './hooks/useMovies';
 import Movie from './Movie';
 import Colors from 'open-color';
 
+const Separator = () => <View style={styles.separator} />;
+
 export default function HomeScreen() {
-  const { movies } = useMovies();
+  const { movies, isPending } = useMovies();
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
         barStyle={Platform.OS === 'ios' ? 'light-content' : 'dark-content'}
       />
-      <FlatList
-        contentContainerStyle={styles.movieList}
-        data={movies}
-        renderItem={({ item: movie }) => {
-          const { title, originalTitle, releaseDate, overview, posterUrl } =
-            movie;
-          return <Movie {...movie} />;
-        }}
-        ItemSeparatorComponent={() => <View style={styles.separator} />}
-      />
+      {isPending ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator />
+        </View>
+      ) : (
+        <FlatList
+          contentContainerStyle={styles.movieList}
+          data={movies}
+          renderItem={({ item: movie }) => <Movie {...movie} />}
+          ItemSeparatorComponent={Separator}
+        />
+      )}
     </SafeAreaView>
   );
 }
@@ -43,5 +48,10 @@ const styles = StyleSheet.create({
   },
   separator: {
     height: 16,
+  },
+  loadingContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

@@ -31,6 +31,7 @@ interface GetDiscoverMovieResponse {
 interface GetDiscoverMoviesParams {
   releaseDateGte?: string;
   releaseDateLte?: string;
+  region?: 'KR';
 }
 
 export const getDiscoverMovies = async ({
@@ -43,6 +44,7 @@ export const getDiscoverMovies = async ({
       params: {
         ['release_date.gte']: releaseDateGte,
         ['release_date.lte']: releaseDateLte,
+        region: 'KR',
       },
     },
   );
