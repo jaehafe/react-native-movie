@@ -3,14 +3,14 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
-import { RootStackParamList } from './src/@types';
-import MoviesScreen from './src/screens/MoviesScreen/MoviesScreen';
-import MovieScreen from 'screens/MovieScreen/MovieScreen';
-import Splash from 'screens/Splash';
-
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
+import { RootStackParamList } from './src/@types';
+import Splash from 'screens/Splash';
+import MoviesScreen from './src/screens/MoviesScreen/MoviesScreen';
+import MovieScreen from 'screens/MovieScreen/MovieScreen';
+import RemindersScreen from 'screens/RemindersScreen/RemindersScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -32,6 +32,7 @@ export default function App() {
               <Stack.Navigator screenOptions={{ headerShown: false }}>
                 <Stack.Screen name="Movies" component={MoviesScreen} />
                 <Stack.Screen name="Movie" component={MovieScreen} />
+                <Stack.Screen name="Reminders" component={RemindersScreen} />
               </Stack.Navigator>
             )}
           </NavigationContainer>
