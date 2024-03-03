@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {
   ActivityIndicator,
+  FlatList,
   Image,
   ScrollView,
   StyleSheet,
@@ -12,6 +13,12 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import { RootStackParamList } from '@types';
 import useMovie from 'screens/MoviesScreen/hooks/useMovie';
 import Colors from 'open-color';
+import Section from './Section';
+import People from './People';
+
+function Separator() {
+  return <View style={styles.separator} />;
+}
 
 export default function MovieScreen() {
   const {
@@ -27,7 +34,16 @@ export default function MovieScreen() {
       return null;
     }
 
-    const { posterUrl, title, originalTitle, releaseDate } = movie;
+    const {
+      posterUrl,
+      title,
+      originalTitle,
+      releaseDate,
+      crews,
+      overview,
+      casts,
+    } = movie;
+    const director = crews.find(crew => crew.job === 'Director');
 
     return (
       <ScrollView contentContainerStyle={styles.content}>
@@ -46,6 +62,38 @@ export default function MovieScreen() {
               style={styles.releaseDateText}>{`개봉일: ${releaseDate}`}</Text>
           </View>
         </View>
+
+        <Section title="소개">
+          <Text style={styles.overviewText}>{overview}</Text>
+        </Section>
+        {director != null && (
+          <Section title="감독">
+            <People
+              name={director.name}
+              description={director.job}
+              photoUrl={director.profileUrl ?? undefined}
+            />
+          </Section>
+        )}
+        <Section title="배우">
+          <FlatList
+            horizontal
+            data={casts}
+            renderItem={({ item: cast }) => {
+              return (
+                <People
+                  name={cast.name}
+                  description={cast.character}
+                  photoUrl={cast.profileUrl ?? undefined}
+                />
+              );
+            }}
+            ItemSeparatorComponent={Separator}
+            showsHorizontalScrollIndicator={false}
+          />
+        </Section>
+
+        {/* 관련 영상 */}
       </ScrollView>
     );
   }, [movie]);
