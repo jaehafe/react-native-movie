@@ -67,7 +67,7 @@ export function Screen({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.black,
+    backgroundColor: Colors.gray[8],
   },
   header: {
     height: 48,

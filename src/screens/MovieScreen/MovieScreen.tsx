@@ -15,6 +15,7 @@ import useMovie from 'screens/MoviesScreen/hooks/useMovie';
 import Colors from 'open-color';
 import Section from './Section';
 import People from './People';
+import Video from './Video';
 
 function Separator() {
   return <View style={styles.separator} />;
@@ -42,8 +43,10 @@ export default function MovieScreen() {
       crews,
       overview,
       casts,
+      videos,
     } = movie;
     const director = crews.find(crew => crew.job === 'Director');
+    const youTubeVideos = videos.filter(video => video.site === 'YouTube');
 
     return (
       <ScrollView contentContainerStyle={styles.content}>
@@ -66,6 +69,7 @@ export default function MovieScreen() {
         <Section title="소개">
           <Text style={styles.overviewText}>{overview}</Text>
         </Section>
+
         {director != null && (
           <Section title="감독">
             <People
@@ -75,6 +79,7 @@ export default function MovieScreen() {
             />
           </Section>
         )}
+
         <Section title="배우">
           <FlatList
             horizontal
@@ -93,7 +98,18 @@ export default function MovieScreen() {
           />
         </Section>
 
-        {/* 관련 영상 */}
+        <Section title="관련 영상">
+          {youTubeVideos.map((video, index) => {
+            return (
+              <React.Fragment key={video.id}>
+                <Video title={video.name} youTubeKey={video.key} />
+                {index + 1 < youTubeVideos.length && (
+                  <View style={styles.verticalSeparator} />
+                )}
+              </React.Fragment>
+            );
+          })}
+        </Section>
       </ScrollView>
     );
   }, [movie]);
