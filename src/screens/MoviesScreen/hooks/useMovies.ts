@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import { getDiscoverMovies } from '../../../modules/ApiRequest';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 import dayjs from 'dayjs';
-import { Movie } from '@/@types';
+import { Movie } from '@types';
+import { getDiscoverMovies } from 'modules/ApiRequest';
 
 export default function useMovies() {
   const getUpcomingMovies = React.useCallback(
