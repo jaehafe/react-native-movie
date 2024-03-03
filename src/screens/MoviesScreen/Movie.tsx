@@ -4,6 +4,8 @@ import Colors from 'open-color';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@types';
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import MovieDetailModal from './MovieDetailModal';
 
 interface MovieProps {
   id: number;
@@ -25,22 +27,41 @@ export default function Movie({
   const { navigate } =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
+  const sharedBottomSheetRef = React.useRef<null | any>(null);
+  const snapPointsShared = ['75%'];
+
   const onPress = () => navigate('Movie', { id });
 
+  const onPresentShared = () => {
+    sharedBottomSheetRef.current?.present();
+  };
+
   return (
-    <TouchableOpacity onPress={onPress} style={styles.container}>
-      <View style={styles.poster}>
-        {posterUrl !== null && (
-          <Image style={styles.posterImage} source={{ uri: posterUrl }} />
-        )}
-      </View>
-      <View style={styles.info}>
-        <Text style={styles.titleText}>{title}</Text>
-        <Text style={styles.originalTitleText}>{originalTitle}</Text>
-        <Text style={styles.releaseDateText}>{releaseDate}</Text>
-        <Text style={styles.overViewText}>{overview}</Text>
-      </View>
-    </TouchableOpacity>
+    <>
+      <TouchableOpacity onPress={onPress} style={styles.container}>
+        <View style={styles.poster}>
+          {posterUrl !== null && (
+            <Image style={styles.posterImage} source={{ uri: posterUrl }} />
+          )}
+        </View>
+        <View style={styles.info}>
+          <Text style={styles.titleText}>{title}</Text>
+          <Text style={styles.originalTitleText}>{originalTitle}</Text>
+          <Text style={styles.releaseDateText}>{releaseDate}</Text>
+          <Text style={styles.overViewText}>{overview}</Text>
+        </View>
+      </TouchableOpacity>
+
+      <BottomSheetModal
+        ref={sharedBottomSheetRef}
+        snapPoints={snapPointsShared}
+        backgroundStyle={{ borderRadius: 50 }}>
+        {/* <View>
+          <Text>123</Text>
+        </View> */}
+        <MovieDetailModal />
+      </BottomSheetModal>
+    </>
   );
 }
 

@@ -9,6 +9,9 @@ import MoviesScreen from './src/screens/MoviesScreen/MoviesScreen';
 import MovieScreen from 'screens/MovieScreen/MovieScreen';
 import Splash from 'screens/Splash';
 
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const queryClient = new QueryClient();
@@ -20,16 +23,20 @@ export default function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <NavigationContainer>
-        {isLoading ? (
-          <Splash onLoading={onLoading} />
-        ) : (
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="Movies" component={MoviesScreen} />
-            <Stack.Screen name="Movie" component={MovieScreen} />
-          </Stack.Navigator>
-        )}
-      </NavigationContainer>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <BottomSheetModalProvider>
+          <NavigationContainer>
+            {isLoading ? (
+              <Splash onLoading={onLoading} />
+            ) : (
+              <Stack.Navigator screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="Movies" component={MoviesScreen} />
+                <Stack.Screen name="Movie" component={MovieScreen} />
+              </Stack.Navigator>
+            )}
+          </NavigationContainer>
+        </BottomSheetModalProvider>
+      </GestureHandlerRootView>
     </QueryClientProvider>
   );
 }
