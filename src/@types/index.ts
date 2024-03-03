@@ -1,5 +1,6 @@
 export type RootStackParamList = {
   Movies: undefined;
+  Movie: undefined;
 };
 
 export interface Movie {
