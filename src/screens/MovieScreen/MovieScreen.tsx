@@ -10,7 +10,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Screen } from 'components/Screen';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { RootStackParamList } from '@types';
 import useMovie from 'screens/MoviesScreen/hooks/useMovie';
@@ -18,9 +17,11 @@ import Colors from 'open-color';
 import Section from './Section';
 import People from './People';
 import Video from './Video';
+import { Screen } from 'components/Screen';
 import CalendarModule from 'modules/CalendarModule';
-import dayjs from 'dayjs';
 import useReminder from 'hooks/useReminder';
+
+import dayjs from 'dayjs';
 
 function Separator() {
   return <View style={styles.separator} />;

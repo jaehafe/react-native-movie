@@ -1,4 +1,7 @@
 import * as React from 'react';
+import { Platform } from 'react-native';
+
+import dayjs from 'dayjs';
 import notifee, {
   AndroidImportance,
   AndroidNotificationSetting,
@@ -7,8 +10,6 @@ import notifee, {
   TriggerNotification,
   TriggerType,
 } from '@notifee/react-native';
-import { Platform } from 'react-native';
-import dayjs from 'dayjs';
 
 interface AddReminderParams {
   movieId: number;

@@ -1,6 +1,6 @@
+import * as React from 'react';
 import { Screen } from 'components/Screen';
 import useReminder from 'hooks/useReminder';
-import * as React from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+
 import Colors from 'open-color';
 import dayjs from 'dayjs';
 import { BellOff } from 'lucide-react-native';
