@@ -8,10 +8,12 @@ class CalendarModule: NSObject {
 
   @objc func createCalendarEvent(_ timestampInSec: Double, title title: String, resolver resolve: @escaping RCTPromiseResolveBlock, rejecter reject: @escaping RCTPromiseRejectBlock) -> Void {
     store.requestAccess(to: .event, completion: { granted, error in
+
       if (error != nil) {
         reject("permission_error", error?.localizedDescription, error)
         return
       }
+      
       
       if (!granted) {
         reject("permision_denied", "Permission is denied", nil)
