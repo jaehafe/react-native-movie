@@ -11,10 +11,19 @@ import Movie from './Movie';
 import Colors from 'open-color';
 import { Screen } from 'components/Screen';
 
+import Lottie from 'lottie-react-native';
+
 const Separator = () => <View style={styles.separator} />;
 
 export default function HomeScreen() {
+  const animationRef = React.useRef<Lottie>(null);
+
   const { movies, isPending, loadMore, hasNextPage, refresh } = useMovies();
+
+  const onRefresh = () => {
+    animationRef.current?.play();
+    refresh();
+  };
 
   return (
     <Screen headerVisible={false}>
@@ -35,9 +44,9 @@ export default function HomeScreen() {
           }}
           refreshControl={
             <RefreshControl
-              tintColor={Colors.white}
               refreshing={isPending}
-              onRefresh={refresh}
+              tintColor={'black'}
+              onRefresh={onRefresh}
             />
           }
         />
