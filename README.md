@@ -1,5 +1,6 @@
 ### 영화 정보 앱
 
+Feature
 - push notification
 - add event to native calendar
 - linking
