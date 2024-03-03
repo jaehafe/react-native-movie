@@ -1,8 +1,12 @@
 import * as React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Colors from 'open-color';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '@types';
 
 interface MovieProps {
+  id: number;
   title: string;
   originalTitle: string;
   releaseDate: string;
@@ -11,14 +15,20 @@ interface MovieProps {
 }
 
 export default function Movie({
+  id,
   title,
   originalTitle,
   releaseDate,
   overview,
   posterUrl,
 }: MovieProps) {
+  const { navigate } =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  const onPress = () => navigate('Movie', { id });
+
   return (
-    <View style={styles.container}>
+    <TouchableOpacity onPress={onPress} style={styles.container}>
       <View style={styles.poster}>
         {posterUrl !== null && (
           <Image style={styles.posterImage} source={{ uri: posterUrl }} />
@@ -30,7 +40,7 @@ export default function Movie({
         <Text style={styles.releaseDateText}>{releaseDate}</Text>
         <Text style={styles.overViewText}>{overview}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 

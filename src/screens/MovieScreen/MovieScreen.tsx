@@ -1,11 +1,12 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import React from 'react';
+import { Screen } from 'components/Screen';
 
-export default function MovieScreen() {
+export default function MovieScreen({}) {
   return (
-    <View>
+    <Screen>
       <Text>MovieScreen</Text>
-    </View>
+    </Screen>
   );
 }
 

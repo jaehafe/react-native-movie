@@ -2,16 +2,14 @@ import * as React from 'react';
 import {
   ActivityIndicator,
   FlatList,
-  Platform,
   RefreshControl,
-  SafeAreaView,
-  StatusBar,
   StyleSheet,
   View,
 } from 'react-native';
 import useMovies from './hooks/useMovies';
 import Movie from './Movie';
 import Colors from 'open-color';
+import { Screen } from 'components/Screen';
 
 const Separator = () => <View style={styles.separator} />;
 
@@ -19,10 +17,7 @@ export default function HomeScreen() {
   const { movies, isPending, loadMore, hasNextPage, refresh } = useMovies();
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar
-        barStyle={Platform.OS === 'ios' ? 'light-content' : 'dark-content'}
-      />
+    <Screen headerVisible={false}>
       {isPending ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator />
@@ -47,7 +42,7 @@ export default function HomeScreen() {
           }
         />
       )}
-    </SafeAreaView>
+    </Screen>
   );
 }
 
