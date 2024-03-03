@@ -32,7 +32,7 @@ export default function MovieScreen() {
   } = useRoute<RouteProp<RootStackParamList, 'Movie'>>();
 
   const { movie, isPending } = useMovie({ id });
-  const { addReminder } = useReminder();
+  const { addReminder, removeReminder, hasReminder } = useReminder();
 
   const renderMovie = React.useCallback(() => {
     if (!movie) {
@@ -69,9 +69,20 @@ export default function MovieScreen() {
     const onAddNotification = async () => {
       try {
         await addReminder({ movieId: id, releaseDate, title });
-        Alert.alert('알림 등록이 완료되었습니다.');
+        Alert.alert(`'${title}' 영화의 개봉일 알림을 추가했어요.`);
       } catch (error: any) {
         Alert.alert(error.message);
+      }
+    };
+
+    const onRemoveReminder = async (reminderId: string | undefined) => {
+      if (reminderId != null) {
+        try {
+          await removeReminder(reminderId);
+          Alert.alert('알림을 취소했어요.');
+        } catch (error: any) {
+          Alert.alert(error.message);
+        }
       }
     };
 
@@ -99,11 +110,19 @@ export default function MovieScreen() {
           <Text style={styles.addToCalendarButtonText}>캘린더에 추가하기</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.addToCalendarButton}
-          onPress={onAddNotification}>
-          <Text style={styles.addToCalendarButtonText}>알림 추가하기</Text>
-        </TouchableOpacity>
+        {hasReminder(String(movie.id)) ? (
+          <TouchableOpacity
+            style={styles.addToCalendarButton}
+            onPress={() => onRemoveReminder(String(movie.id))}>
+            <Text style={styles.addToCalendarButtonText}>알림 취소하기</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={styles.addToCalendarButton}
+            onPress={onAddNotification}>
+            <Text style={styles.addToCalendarButtonText}>알림 추가하기</Text>
+          </TouchableOpacity>
+        )}
 
         <Section title="소개">
           <Text style={styles.overviewText}>{overview}</Text>
@@ -151,7 +170,7 @@ export default function MovieScreen() {
         </Section>
       </ScrollView>
     );
-  }, [movie, addReminder, id]);
+  }, [movie, addReminder, id, hasReminder, removeReminder]);
 
   return (
     <Screen>

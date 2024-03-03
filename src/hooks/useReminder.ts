@@ -18,6 +18,7 @@ interface AddReminderParams {
 
 export default function useReminder() {
   const [channelId, setChannelId] = React.useState<string | null>(null);
+  const [reminders, setReminders] = React.useState<TriggerNotification[]>([]);
 
   React.useEffect(() => {
     (async () => {
@@ -33,6 +34,11 @@ export default function useReminder() {
         setChannelId('ios-fake-channel-id');
       }
     })();
+  }, []);
+
+  const loadReminders = React.useCallback(async () => {
+    const notifications = await notifee.getTriggerNotifications();
+    setReminders(notifications);
   }, []);
 
   const addReminder = React.useCallback(
@@ -71,22 +77,32 @@ export default function useReminder() {
         },
         trigger,
       );
+
+      await loadReminders();
     },
-    [channelId],
+
+    [channelId, loadReminders],
   );
 
-  const [reminders, setReminders] = React.useState<TriggerNotification[]>([]);
-
-  const loadReminders = React.useCallback(async () => {
-    return await notifee.getTriggerNotifications();
-  }, []);
-
   React.useEffect(() => {
-    (async () => {
-      const notifications = await loadReminders();
-      setReminders(notifications);
-    })();
+    loadReminders();
   }, [loadReminders]);
 
-  return { addReminder, reminders };
+  const removeReminder = React.useCallback(
+    async (id: string) => {
+      await notifee.cancelTriggerNotification(id);
+      await loadReminders();
+    },
+    [loadReminders],
+  );
+
+  const hasReminder = React.useCallback(
+    (id: string) => {
+      const reminder = reminders.find(r => r.notification.id === id);
+      return reminder != null;
+    },
+    [reminders],
+  );
+
+  return { reminders, addReminder, removeReminder, hasReminder };
 }

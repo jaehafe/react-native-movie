@@ -17,9 +17,15 @@ function Separator() {
 }
 
 export default function ReminderScreen() {
-  const { reminders } = useReminder();
+  const { reminders, removeReminder } = useReminder();
 
   console.log('reminders::', reminders);
+
+  const onRemoveReminder = (reminderId: string | undefined) => {
+    if (reminderId != null) {
+      removeReminder(reminderId);
+    }
+  };
 
   return (
     <Screen>
@@ -40,7 +46,8 @@ export default function ReminderScreen() {
                 )}
               </View>
               <View style={styles.removeReminderContainer}>
-                <TouchableOpacity onPress={() => {}}>
+                <TouchableOpacity
+                  onPress={() => onRemoveReminder(reminder.notification.id)}>
                   <BellOff color={Colors.white} />
                 </TouchableOpacity>
               </View>

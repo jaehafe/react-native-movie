@@ -45,7 +45,7 @@ export function Screen({
               <TouchableOpacity
                 onPress={onPressBackButton}
                 style={styles.goBack}>
-                <ChevronLeft size={20} color={Colors.white} />
+                <ChevronLeft size={26} color={Colors.white} />
               </TouchableOpacity>
             )}
             {renderLeftComponent != null && renderLeftComponent()}
