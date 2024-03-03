@@ -20,8 +20,6 @@ function Separator() {
 export default function ReminderScreen() {
   const { reminders, removeReminder } = useReminder();
 
-  console.log('reminders::', reminders);
-
   const onRemoveReminder = (reminderId: string | undefined) => {
     if (reminderId != null) {
       removeReminder(reminderId);
